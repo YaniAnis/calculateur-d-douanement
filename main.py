@@ -3,6 +3,8 @@ from ttkbootstrap.constants import *
 from tkinter import ttk
 from tkinter import StringVar
 
+dollar = 245  # Taux de change fixe
+
 def calculate():
     try:
         cyl = float(cyl_var.get().replace(',', '.'))
@@ -12,18 +14,26 @@ def calculate():
         return
     if cyl < 1.8:
         douane = prix * 0.15
+        tic = prix * 0.3
+        tva = (prix + douane + tic) * 0.19
+        tva *= 130
+        tic *= 130
+        douane *= 130
+        dedouanement = (tva + tic + douane) * 0.5
+        prix_yri = prix * dollar
+        total = prix_yri + dedouanement
+
     else:
         douane = prix * 0.3
+        tic = prix * 0.3
+        tva = (prix + douane + tic) * 0.19
 
-    tic = prix * 0.3
-    tva = (prix + douane + tic) * 0.19
-
-    tva *= 130
-    tic *= 130
-    douane *= 130
-    dedouanement = (tva + tic + douane) * 0.5
-    prix_yri = prix * 230
-    total = prix_yri + dedouanement
+        tva *= 130
+        tic *= 130
+        douane *= 130
+        dedouanement = (tva + tic + douane) * 0.8
+        prix_yri = prix * dollar
+        total = prix_yri + dedouanement
 
     result_var.set(f"Total à payer avec dédouanement: {total:,.2f} DA")
     prix_Dedouanement.set(f"Montant dédouanement : {dedouanement:,.2f} DA")
